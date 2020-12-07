@@ -1,0 +1,13 @@
+ {
+   "nodes": [
+     { "id": "1", "text": "Дома", "name":"Сходить домой", "isFinish":"false" },
+     { "id": "2", "text": "Магазин", "name":"Пойти в магазин", "isFinish":"false" },
+     { "id": "3", "text": "Работа", "name":"пойти на работу", "isFinish":"true"}
+   ],
+   "edges": [
+     { "source": "1", "target": "2"},
+     { "source": "1", "target": "3"},
+     { "source": "2", "target": "1"},
+     { "source": "2", "target": "3"}
+   ]
+ }
