@@ -1,33 +1,35 @@
-import java.util.ArrayList;
+import org.jgrapht.nio.ImportException;
 
 /*
- * Wrote by Panshin Roman in 05.12.20
- * Game for QuestEngine v 1.0
+ * Wrote by Panshin Roman in 27.12.20
+ * Game for QuestEngine v 1.1
  * QuestEngine - Java interpreter of JSON-graphs into text game
  */
 
 
-public abstract class Game {
-	public static Repository rep; 
-	private static String nowId = "1";
-	private static boolean isFinish = false;
-	private static  ArrayList <String> optionsId;
-	
+public class Game {
 	public static void main(String[] args) {
-		rep = new Repository(args[0]);
-		while(true) {
-			updata(nowId);
-			if(isFinish)
-				break;
-			Interface.printElementbyId(nowId);
-			nowId = optionsId.get(Interface.getChoice() - 1);
+		UI ui = new UI();
+		Repo r = new Repo();
+	    if(args.length == 0)
+	    {
+	    	ui.showError("Не указан игровой репозиторий.");
+	        System.exit(1);
+	    }
+		try {
+			r.initRepository(args[0]);
 		}
-		System.out.println("Игра окончена!");
+		catch(ImportException e2) {
+			ui.showError("Некорректный путь или тип файла.");
+			System.exit(1);
+		}
+		Location loc= r.getLocation("1");
 		
-	}
-	
-	private static void updata(String id) {
-		optionsId = Repository.getOptionsFrom(id);
-		isFinish =  Repository.isFinishbyId(id);
+		do {
+			ui.showLocation(loc);
+			loc = r.getLocation(ui.getChoice(loc));
+			
+		}while(!loc.isFinish());
+		ui.showLocation(loc);
 	}
 }
